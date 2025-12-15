@@ -65,14 +65,14 @@ const ImageUploadForm = ({
                 className="h-28 md:h-36 w-full object-cover rounded-lg"
               />
             ) : (
-              <>
+              <div className='flex flex-col h-full items-center justify-center'>
                 <span className="material-icons block mb-2" style={{ fontSize: '2em' }}>
                   add
                 </span>
                 <p className="text-sm" style={{ color: 'var(--color-muted)' }}>
                   Click to upload image
                 </p>
-              </>
+              </div>
             )}
           </label>
         </div>
