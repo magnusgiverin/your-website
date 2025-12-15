@@ -1,19 +1,17 @@
 'use client'
 
-import {useState} from 'react'
-import {clientSide} from '@/sanity/lib/client-side'
+import { useEffect, useState } from 'react'
+import { clientSide } from '@/sanity/lib/client-side'
 import QuoteUploadForm from '../forms/QuoteUploadForm'
 import ImageUploadForm from '../forms/ImageUploadForm'
+import Toast from '../Toast'
 
-interface UpdateModalProps {
-  onComplete?: () => void
-}
-
-export default function UploadModal({onComplete}: UpdateModalProps) {
+export default function UploadModal() {
   const [isOpen, setIsOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState('')
   const [uploadType, setUploadType] = useState<'image' | 'quote'>('image')
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null)
 
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [imageCaption, setImageCaption] = useState('')
@@ -25,6 +23,11 @@ export default function UploadModal({onComplete}: UpdateModalProps) {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.[0]) setImageFile(e.target.files[0])
+  }
+
+  const showMessage = (msg: string, type: 'success' | 'error' = 'success') => {
+    setToast({ message: msg, type })
+    if (type === 'success') setIsOpen(false) 
   }
 
   const handleChangeUploadType = (type: 'image' | 'quote') => {
@@ -70,19 +73,19 @@ export default function UploadModal({onComplete}: UpdateModalProps) {
         _type: 'imageUpload',
         image: {
           _type: 'image',
-          asset: {_type: 'reference', _ref: imageAsset._id},
+          asset: { _type: 'reference', _ref: imageAsset._id },
         },
         caption: imageCaption,
         uploadedAt: new Date().toISOString(),
 
-        ...(imageCoordinates && {coordinates: parseCoordinates(imageCoordinates)}),
+        ...(imageCoordinates && { coordinates: parseCoordinates(imageCoordinates) }),
       })
 
-      setMessage('Image uploaded successfully!')
+      showMessage('Image uploaded successfully!', 'success')
       setImageFile(null)
       setImageCaption('')
     } catch {
-      setMessage('Error uploading image. Please try again.')
+      showMessage('Error uploading image. Please try again.', 'error')
     } finally {
       setIsLoading(false)
     }
@@ -102,15 +105,15 @@ export default function UploadModal({onComplete}: UpdateModalProps) {
         author: quoteAuthor || undefined,
         uploadedAt: new Date().toISOString(),
 
-        ...(quoteCoordinates && {coordinates: parseCoordinates(quoteCoordinates)}),
+        ...(quoteCoordinates && { coordinates: parseCoordinates(quoteCoordinates) }),
       })
 
-      setMessage('Quote uploaded successfully!')
+      showMessage('Quote uploaded successfully!')
       setQuoteText('')
       setQuoteAuthor('')
       setQuoteCoordinates(null)
     } catch {
-      setMessage('Error uploading quote. Please try again.')
+      showMessage('Error uploading quote. Please try again.')
     } finally {
       setIsLoading(false)
     }
@@ -121,21 +124,29 @@ export default function UploadModal({onComplete}: UpdateModalProps) {
       <button
         onClick={() => setIsOpen(true)}
         className="cursor-pointer material-icons fixed bottom-8 right-8 z-40 h-14 w-14 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-all"
-        style={{backgroundColor: 'var(--color-primary)', color: 'var(--color-bg)'}}
+        style={{ backgroundColor: 'var(--color-primary)', color: 'var(--color-bg)' }}
       >
         add
       </button>
+
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
 
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-2 md:p-4">
           <div
             className="absolute inset-0 backdrop-blur-sm"
             onClick={() => setIsOpen(false)}
-            style={{backgroundColor: 'rgba(0, 0, 0, 0.8)'}}
+            style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)' }}
           />
 
           <div
-            className="relative w-full max-w-lg rounded-2xl p-4 md:p-8 shadow-2xl border"
+            className="relative w-full max-w-lg max-h-[90vh] rounded-2xl p-4 md:p-8 shadow-2xl border"
             style={{
               backgroundColor: 'var(--color-surface)',
               borderColor: 'rgba(255, 255, 255, 0.1)',
@@ -155,31 +166,14 @@ export default function UploadModal({onComplete}: UpdateModalProps) {
             </button>
 
             <h3>Add to Board</h3>
-            <p className="mb-6" style={{color: 'var(--color-muted)'}}>
+            <p className="mb-6" style={{ color: 'var(--color-muted)' }}>
               Share with the world from your location
             </p>
-
-            {message && (
-              <div
-                className="mb-6 p-4 rounded-lg font-medium transition-all"
-                style={{
-                  backgroundColor: message.includes('Error')
-                    ? 'rgba(239, 68, 68, 0.1)'
-                    : 'rgba(6, 182, 212, 0.1)',
-                  color: message.includes('Error') ? '#ef4444' : 'var(--color-primary)',
-                  border: message.includes('Error')
-                    ? '1px solid rgba(239, 68, 68, 0.3)'
-                    : '1px solid rgba(6, 182, 212, 0.3)',
-                }}
-              >
-                {message}
-              </div>
-            )}
 
             <div className="mb-8">
               <label
                 className="block text-sm font-semibold mb-3"
-                style={{color: 'var(--color-text)'}}
+                style={{ color: 'var(--color-text)' }}
               >
                 What type?
               </label>
@@ -220,7 +214,6 @@ export default function UploadModal({onComplete}: UpdateModalProps) {
                 imageCoordinates={imageCoordinates}
                 setImageCoordinates={setImageCoordinates}
                 handleImageSubmit={handleImageSubmit}
-                setImageFile={setImageFile}
                 setMessage={setMessage}
               />
             )}

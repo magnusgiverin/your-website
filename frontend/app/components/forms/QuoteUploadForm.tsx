@@ -25,7 +25,7 @@ const QuoteUploadForm = ({
 }: QuoteUploadFormProps) => {
   return (
     <form onSubmit={handleQuoteSubmit} className="flex flex-col gap-4">
-      <div className="h-48 flex flex-col">
+      <div className="h-32 md:h-48 flex flex-col">
         <label className="block text-sm font-medium mb-2" style={{color: 'var(--color-text)'}}>
           Thought or Quote
         </label>
@@ -56,7 +56,7 @@ const QuoteUploadForm = ({
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-2" style={{color: 'var(--color-text)'}}>
+        <label className="hidden sm:block text-sm font-medium mb-2" style={{color: 'var(--color-text)'}}>
           Author (optional)
         </label>
         <input
@@ -74,7 +74,7 @@ const QuoteUploadForm = ({
         />
       </div>
 
-      <div>
+      <div className='hidden sm:block'>
         <label className="block text-sm font-medium mb-2" style={{color: 'var(--color-text)'}}>
           Location (required for map)
         </label>
@@ -102,7 +102,7 @@ const QuoteUploadForm = ({
       <button
         type="submit"
         disabled={isLoading || !quoteText.trim() || !quoteCoordinates}
-        className="w-full px-6 py-3 rounded-lg font-semibold transition-all mt-6 hover:scale-105 disabled:hover:scale-100"
+        className="w-full px-8 py-2 rounded-lg font-semibold transition-all mt-6 hover:scale-105 disabled:hover:scale-100"
         style={{
           backgroundColor: 'var(--color-primary)',
           color: 'var(--color-bg)',

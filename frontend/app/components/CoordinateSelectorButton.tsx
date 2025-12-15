@@ -27,6 +27,7 @@ const CoordinateSelectorButton = ({
   setCoordinates,
 }: CoordinateSelectorButtonProps) => {
   const [jitterMeters, setJitterMeters] = useState(50)
+  const [ownLocationUsed, setOwnLocationUsed] = useState(false)
 
   // 🔹 Store exact user location once
   const [baseLocation, setBaseLocation] = useState<{
@@ -81,11 +82,14 @@ const CoordinateSelectorButton = ({
   }, [jitterMeters]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="flex flex-col gap-3 mt-4">
+    <div className="flex flex-col gap-4 mt-2 md:mt-4">
       {/* Button */}
       <button
         type="button"
-        onClick={getUserLocation}
+        onClick={() => {
+          getUserLocation()
+          setOwnLocationUsed(true)
+        }}
         disabled={isLoading}
         className="cursor-pointer flex items-center justify-center gap-3 group"
         style={{color: 'var(--color-primary)'}}
@@ -102,7 +106,7 @@ const CoordinateSelectorButton = ({
             text-sm
           "
         >
-          Use my current location
+          {ownLocationUsed ? 'Using your current location' : 'Use my current location'}
         </span>
       </button>
 
@@ -125,7 +129,7 @@ const CoordinateSelectorButton = ({
           disabled={!baseLocation}
         />
 
-        <p className="text-xs" style={{color: 'var(--color-muted)'}}>
+        <p className="hidden md:block text-xs" style={{color: 'var(--color-muted)'}}>
           Your exact location is never shared. The marker is randomly offset within approximately{' '}
           {jitterMeters} meters.
         </p>

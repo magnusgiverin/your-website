@@ -2,7 +2,6 @@ import CoordinateSelectorButton from '../CoordinateSelectorButton'
 
 interface ImageUploadFormProps {
   imageFile: File | null
-  setImageFile: (file: File | null) => void
   imageCaption: string
   setImageCaption: (caption: string) => void
   imageCoordinates: string | null
@@ -15,7 +14,6 @@ interface ImageUploadFormProps {
 
 const ImageUploadForm = ({
   imageFile,
-  setImageFile,
   imageCaption,
   setImageCaption,
   imageCoordinates,
@@ -27,8 +25,8 @@ const ImageUploadForm = ({
 }: ImageUploadFormProps) => {
   return (
     <form onSubmit={handleImageSubmit} className="flex flex-col gap-4">
-      <div className="h-48 flex flex-col">
-        <label className="block text-sm font-medium mb-2" style={{color: 'var(--color-text)'}}>
+      <div className="h-32 md:h-48 flex flex-col">
+        <label className="hidden sm:block text-sm font-medium mb-2" style={{color: 'var(--color-text)'}}>
           Select Image
         </label>
 
@@ -36,7 +34,7 @@ const ImageUploadForm = ({
           className="
       flex-1
       border-2 border-dashed rounded-xl
-      p-8
+      p-2 md:p-8
       text-center
       transition-all
       hover:border-opacity-60
@@ -53,10 +51,9 @@ const ImageUploadForm = ({
             onChange={handleImageChange}
             disabled={isLoading}
             className="sr-only"
-            id="image-input"
           />
 
-          <label htmlFor="image-input" className="cursor-pointer block">
+          <label className="cursor-pointer block">
             <span className="material-icons block mb-2" style={{fontSize: '2em'}}>
               add
             </span>
@@ -67,7 +64,7 @@ const ImageUploadForm = ({
         </div>
       </div>
       <div>
-        <label className="block text-sm font-medium mb-2" style={{color: 'var(--color-text)'}}>
+        <label className="hidden sm:block text-sm font-medium mb-2" style={{color: 'var(--color-text)'}}>
           Caption
         </label>
         <input
@@ -85,7 +82,7 @@ const ImageUploadForm = ({
         />
       </div>
 
-      <div>
+      <div className='hidden sm:block'>
         <label className="block text-sm font-medium mb-2" style={{color: 'var(--color-text)'}}>
           Location (required for map)
         </label>
@@ -108,11 +105,10 @@ const ImageUploadForm = ({
         setCoordinates={setImageCoordinates}
         setMessage={setMessage}
       />
-
       <button
         type="submit"
         disabled={isLoading || !imageFile || !imageCoordinates}
-        className="w-full px-6 py-3 rounded-lg font-semibold transition-all mt-6 hover:scale-105 disabled:hover:scale-100"
+        className="w-full px-8 py-2 rounded-lg font-semibold transition-all mt-6 hover:scale-105 disabled:hover:scale-100"
         style={{
           backgroundColor: 'var(--color-primary)',
           color: 'var(--color-bg)',
