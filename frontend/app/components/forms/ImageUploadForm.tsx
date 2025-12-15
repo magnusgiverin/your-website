@@ -26,24 +26,25 @@ const ImageUploadForm = ({
   return (
     <form onSubmit={handleImageSubmit} className="flex flex-col gap-4">
       <div className="h-32 md:h-48 flex flex-col">
-        <label className="hidden sm:block text-sm font-medium mb-2" style={{color: 'var(--color-text)'}}>
+        <label className="hidden sm:block text-sm font-medium mb-2" style={{ color: 'var(--color-text)' }}>
           Select Image
         </label>
 
         <div
           className="
-      flex-1
-      border-2 border-dashed rounded-xl
-      p-2 md:p-8
-      text-center
-      transition-all
-      hover:border-opacity-60
-      cursor-pointer
-      flex
-      items-center
-      justify-center
-    "
-          style={{borderColor: 'rgba(255, 255, 255, 0.2)'}}
+    flex-1
+    border-2 border-dashed rounded-xl
+    p-2
+    text-center
+    transition-all
+    hover:border-opacity-60
+    cursor-pointer
+    flex
+    flex-col
+    items-center
+    justify-center
+  "
+          style={{ borderColor: 'rgba(255, 255, 255, 0.2)' }}
         >
           <input
             type="file"
@@ -56,18 +57,28 @@ const ImageUploadForm = ({
             className="sr-only"
           />
 
-  <label htmlFor="image-input" className="cursor-pointer block">
-            <span className="material-icons block mb-2" style={{fontSize: '2em'}}>
-              add
-            </span>
-            <p className="text-sm" style={{color: 'var(--color-muted)'}}>
-              {imageFile ? imageFile.name : 'Click to upload image'}
-            </p>
+          <label htmlFor="image-input" className="cursor-pointer block w-full h-full">
+            {imageFile ? (
+              <img
+                src={URL.createObjectURL(imageFile)}
+                alt="Preview"
+                className="h-28 md:h-36 w-full object-cover rounded-lg"
+              />
+            ) : (
+              <>
+                <span className="material-icons block mb-2" style={{ fontSize: '2em' }}>
+                  add
+                </span>
+                <p className="text-sm" style={{ color: 'var(--color-muted)' }}>
+                  Click to upload image
+                </p>
+              </>
+            )}
           </label>
         </div>
       </div>
       <div>
-        <label className="hidden sm:block text-sm font-medium mb-2" style={{color: 'var(--color-text)'}}>
+        <label className="hidden sm:block text-sm font-medium mb-2" style={{ color: 'var(--color-text)' }}>
           Caption
         </label>
         <input
@@ -86,7 +97,7 @@ const ImageUploadForm = ({
       </div>
 
       <div className='hidden sm:block'>
-        <label className="block text-sm font-medium mb-2" style={{color: 'var(--color-text)'}}>
+        <label className="block text-sm font-medium mb-2" style={{ color: 'var(--color-text)' }}>
           Location (required for map)
         </label>
         <input
