@@ -25,7 +25,7 @@ export default async function RootLayout({children}: {children: React.ReactNode}
   return (
     <html lang="en" className={`antialiased`}>
       <body>
-        <section className="min-h-screen pb-40">
+        <section className="min-h-screen">
           {/* The <Toaster> component is responsible for rendering toast notifications */}
           <Toaster />
           {/* The <SanityLive> component is responsible for making all sanityFetch calls in your application live */}
