@@ -21,21 +21,8 @@ export default async function Page() {
 
   return (
     <div className="min-h-screen" style={{backgroundColor: 'var(--color-bg)'}}>
-      <div className="h-screen overflow-hidden">
-        {itemsWithLocation.length > 0 ? (
-          <WorldMapWrapper uploads={uploads} />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <div className="text-center">
-              <p className="mb-2" style={{color: 'var(--color-muted)'}}>
-                No contributions with location yet
-              </p>
-              <p className="text-sm" style={{color: 'var(--color-muted)', opacity: 0.6}}>
-                Add your first item to see it on the map
-              </p>
-            </div>
-          </div>
-        )}
+      <div className="h-screen scroll-y-none overflow-hidden">
+        <WorldMapWrapper uploads={uploads} />
       </div>
       <InfoForm />
       <UploadForm />

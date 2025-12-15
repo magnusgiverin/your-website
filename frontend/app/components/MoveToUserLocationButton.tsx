@@ -18,7 +18,7 @@ const MoveToUserLocationButton = () => {
   return (
     <button
       onClick={handleMoveToUserLocation}
-      className="cursor-pointer material-icons fixed bottom-48 right-8 z-40 h-14 w-14 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-all"
+      className="cursor-pointer material-icons fixed bottom-48 right-4 md:right-8 z-40 h-14 w-14 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-all"
       style={{backgroundColor: 'var(--color-primary)', color: 'var(--color-bg)'}}
     >
       my_location
