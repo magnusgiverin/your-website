@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import { useEffect, useState } from 'react'
 
 interface CoordinateSelectorButtonProps {
   isLoading: boolean
@@ -35,7 +35,7 @@ const CoordinateSelectorButton = ({
     lng: number
   } | null>(null)
 
-  const applyJitter = (base: {lat: number; lng: number}) => {
+  const applyJitter = (base: { lat: number; lng: number }) => {
     let lat = base.lat
     let lng = base.lng
 
@@ -48,10 +48,24 @@ const CoordinateSelectorButton = ({
     setCoordinates(`${lat.toFixed(6)}, ${lng.toFixed(6)}`)
   }
 
-  const getUserLocation = () => {
+  const getUserLocation = async () => {
     if (!navigator.geolocation) {
       showMessage('Geolocation is not supported by your browser', 'error')
       return
+    }
+
+    try {
+      const status = await navigator.permissions.query({ name: 'geolocation' })
+
+      if (status.state === 'denied') {
+        showMessage(
+          'Location access was denied. Please enable it in your browser settings.',
+          'error'
+        )
+        return
+      }
+    } catch {
+      // Permissions API not supported, fallback to trying geolocation
     }
 
     navigator.geolocation.getCurrentPosition(
@@ -60,17 +74,25 @@ const CoordinateSelectorButton = ({
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         }
-
         setBaseLocation(base)
         applyJitter(base)
+        setOwnLocationUsed(true)
       },
-      () => {
-        showMessage('Unable to retrieve your location', 'error')
+      (error) => {
+        if (error.code === 1) {
+          // Permission denied
+          showMessage(
+            'Location access was denied. Please allow it in your browser to use this feature.',
+            'error'
+          )
+        } else {
+          showMessage('Unable to retrieve your location', 'error')
+        }
       },
       {
         enableHighAccuracy: true,
         timeout: 10000,
-      },
+      }
     )
   }
 
@@ -88,11 +110,10 @@ const CoordinateSelectorButton = ({
         type="button"
         onClick={() => {
           getUserLocation()
-          setOwnLocationUsed(true)
         }}
         disabled={isLoading}
         className="cursor-pointer flex items-center justify-center gap-3 group"
-        style={{color: 'var(--color-primary)'}}
+        style={{ color: 'var(--color-primary)' }}
       >
         <span className="material-icons">location_on</span>
 
@@ -111,7 +132,7 @@ const CoordinateSelectorButton = ({
       </button>
 
       <div className="flex flex-col gap-2">
-        <label className="text-xs" style={{color: 'var(--color-muted)'}}>
+        <label className="text-xs" style={{ color: 'var(--color-muted)' }}>
           Location accuracy: ±{jitterMeters} meters
         </label>
 
@@ -129,7 +150,7 @@ const CoordinateSelectorButton = ({
           disabled={!baseLocation}
         />
 
-        <p className="hidden md:block text-xs" style={{color: 'var(--color-muted)'}}>
+        <p className="hidden md:block text-xs" style={{ color: 'var(--color-muted)' }}>
           Your exact location is never shared. The marker is randomly offset within approximately{' '}
           {jitterMeters} meters.
         </p>
