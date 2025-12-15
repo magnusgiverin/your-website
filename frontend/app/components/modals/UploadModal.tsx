@@ -9,7 +9,6 @@ import Toast from '../Toast'
 export default function UploadModal() {
   const [isOpen, setIsOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const [message, setMessage] = useState('')
   const [uploadType, setUploadType] = useState<'image' | 'quote'>('image')
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null)
 
@@ -20,10 +19,6 @@ export default function UploadModal() {
   const [quoteText, setQuoteText] = useState('')
   const [quoteAuthor, setQuoteAuthor] = useState('')
   const [quoteCoordinates, setQuoteCoordinates] = useState<null | string>(null)
-
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files?.[0]) setImageFile(e.target.files[0])
-  }
 
   const showMessage = (msg: string, type: 'success' | 'error' = 'success') => {
     setToast({ message: msg, type })
@@ -40,8 +35,6 @@ export default function UploadModal() {
     setQuoteText('')
     setQuoteAuthor('')
     setQuoteCoordinates(null)
-
-    setMessage('')
   }
 
   const parseCoordinates = (value: string | null) => {
@@ -62,10 +55,9 @@ export default function UploadModal() {
 
   const handleImageSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!imageFile) return setMessage('Please select an image')
+    if (!imageFile) return showMessage('Please select an image', 'error')
 
     setIsLoading(true)
-    setMessage('')
 
     try {
       const imageAsset = await clientSide.assets.upload('image', imageFile)
@@ -93,10 +85,9 @@ export default function UploadModal() {
 
   const handleQuoteSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!quoteText.trim()) return setMessage('Please enter a quote')
+    if (!quoteText.trim()) return showMessage('Please enter a quote', 'error')
 
     setIsLoading(true)
-    setMessage('')
 
     try {
       await clientSide.create({
@@ -208,13 +199,13 @@ export default function UploadModal() {
               <ImageUploadForm
                 isLoading={isLoading}
                 imageFile={imageFile}
-                handleImageChange={handleImageChange}
+                setImageFile={setImageFile}
                 imageCaption={imageCaption}
                 setImageCaption={setImageCaption}
                 imageCoordinates={imageCoordinates}
                 setImageCoordinates={setImageCoordinates}
                 handleImageSubmit={handleImageSubmit}
-                setMessage={setMessage}
+                showMessage={showMessage}
               />
             )}
 
@@ -228,7 +219,7 @@ export default function UploadModal() {
                 quoteCoordinates={quoteCoordinates}
                 setQuoteCoordinates={setQuoteCoordinates}
                 handleQuoteSubmit={handleQuoteSubmit}
-                setMessage={setMessage}
+                showMessage={showMessage}
               />
             )}
           </div>

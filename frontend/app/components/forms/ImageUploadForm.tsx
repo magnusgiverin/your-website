@@ -8,8 +8,8 @@ interface ImageUploadFormProps {
   setImageCoordinates: (coords: string | null) => void
   isLoading: boolean
   handleImageSubmit: (e: React.FormEvent) => void
-  handleImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  setMessage: (msg: string) => void
+  setImageFile: (file: File | null) => void
+  showMessage: (msg: string, type?: 'success' | 'error') => void
 }
 
 const ImageUploadForm = ({
@@ -20,8 +20,8 @@ const ImageUploadForm = ({
   setImageCoordinates,
   isLoading,
   handleImageSubmit,
-  handleImageChange,
-  setMessage,
+  setImageFile,
+  showMessage,
 }: ImageUploadFormProps) => {
   return (
     <form onSubmit={handleImageSubmit} className="flex flex-col gap-4">
@@ -48,12 +48,15 @@ const ImageUploadForm = ({
           <input
             type="file"
             accept="image/*"
-            onChange={handleImageChange}
+            id="image-input"
+            onChange={(e) => {
+              if (e.target.files?.[0]) setImageFile(e.target.files[0])
+            }}
             disabled={isLoading}
             className="sr-only"
           />
 
-          <label className="cursor-pointer block">
+  <label htmlFor="image-input" className="cursor-pointer block">
             <span className="material-icons block mb-2" style={{fontSize: '2em'}}>
               add
             </span>
@@ -103,7 +106,7 @@ const ImageUploadForm = ({
       <CoordinateSelectorButton
         isLoading={isLoading}
         setCoordinates={setImageCoordinates}
-        setMessage={setMessage}
+        showMessage={showMessage}
       />
       <button
         type="submit"

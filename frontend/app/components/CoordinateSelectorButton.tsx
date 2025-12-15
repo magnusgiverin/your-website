@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react'
 
 interface CoordinateSelectorButtonProps {
   isLoading: boolean
-  setMessage: (msg: string) => void
+  showMessage: (msg: string, type?: 'success' | 'error') => void
   setCoordinates: (coords: string | null) => void
 }
 
@@ -23,10 +23,10 @@ const metersToLatLngOffset = (meters: number, lat: number) => {
 
 const CoordinateSelectorButton = ({
   isLoading,
-  setMessage,
+  showMessage,
   setCoordinates,
 }: CoordinateSelectorButtonProps) => {
-  const [jitterMeters, setJitterMeters] = useState(50)
+  const [jitterMeters, setJitterMeters] = useState(100)
   const [ownLocationUsed, setOwnLocationUsed] = useState(false)
 
   // 🔹 Store exact user location once
@@ -50,7 +50,7 @@ const CoordinateSelectorButton = ({
 
   const getUserLocation = () => {
     if (!navigator.geolocation) {
-      setMessage('Geolocation is not supported by your browser')
+      showMessage('Geolocation is not supported by your browser', 'error')
       return
     }
 
@@ -65,7 +65,7 @@ const CoordinateSelectorButton = ({
         applyJitter(base)
       },
       () => {
-        setMessage('Unable to retrieve your location')
+        showMessage('Unable to retrieve your location', 'error')
       },
       {
         enableHighAccuracy: true,
@@ -117,9 +117,9 @@ const CoordinateSelectorButton = ({
 
         <input
           type="range"
-          min={50}
-          max={1000}
-          step={10}
+          min={100}
+          max={10000}
+          step={100}
           value={jitterMeters}
           onChange={(e) => setJitterMeters(Number(e.target.value))}
           className="w-full"

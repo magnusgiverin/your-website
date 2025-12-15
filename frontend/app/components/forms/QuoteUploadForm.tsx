@@ -9,7 +9,7 @@ interface QuoteUploadFormProps {
   setQuoteCoordinates: (coords: string | null) => void
   isLoading: boolean
   handleQuoteSubmit: (e: React.FormEvent) => void
-  setMessage: (msg: string) => void
+  showMessage: (msg: string, type?: 'success' | 'error') => void
 }
 
 const QuoteUploadForm = ({
@@ -21,7 +21,7 @@ const QuoteUploadForm = ({
   setQuoteCoordinates,
   isLoading,
   handleQuoteSubmit,
-  setMessage,
+  showMessage,
 }: QuoteUploadFormProps) => {
   return (
     <form onSubmit={handleQuoteSubmit} className="flex flex-col gap-4">
@@ -96,7 +96,7 @@ const QuoteUploadForm = ({
       <CoordinateSelectorButton
         isLoading={isLoading}
         setCoordinates={setQuoteCoordinates}
-        setMessage={setMessage}
+        showMessage={showMessage}
       />
 
       <button
