@@ -5,7 +5,11 @@ import {clientSide} from '@/sanity/lib/client-side'
 import QuoteUploadForm from '../forms/QuoteUploadForm'
 import ImageUploadForm from '../forms/ImageUploadForm'
 
-export default function UploadModal() {
+interface UpdateModalProps {
+  onComplete?: () => void
+}
+
+export default function UploadModal({onComplete}: UpdateModalProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState('')
