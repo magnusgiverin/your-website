@@ -230,7 +230,7 @@ export default function WorldMap({uploads}: WorldMapProps) {
                 ) : upload._type === 'quote' ? (
                   <div style={{display: 'flex', flexDirection: 'column', gap: 'var(--space-2)'}}>
                     <p style={{fontStyle: 'italic', color: 'var(--color-muted)'}}>
-                      "{upload.text}"
+                      &quot;{upload.text}&quot;
                     </p>
                     {upload.author && <p className="text-xs">— {upload.author}</p>}
                   </div>
