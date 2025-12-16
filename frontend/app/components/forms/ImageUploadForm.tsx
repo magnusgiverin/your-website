@@ -77,7 +77,8 @@ const ImageUploadForm = ({
           </label>
         </div>
       </div>
-      <div>
+      <section className='w-full flex flex-col lg:flex-row xl:flex-col gap-4 lg:justify-between'>
+      <div className='w-full'>
         <label className="hidden sm:block text-sm font-medium mb-2" style={{ color: 'var(--color-text)' }}>
           Caption
         </label>
@@ -96,7 +97,7 @@ const ImageUploadForm = ({
         />
       </div>
 
-      <div className='hidden sm:block'>
+      <div className='hidden sm:block w-full'>
         <label className="block text-sm font-medium mb-2" style={{ color: 'var(--color-text)' }}>
           Location (required for map)
         </label>
@@ -114,6 +115,7 @@ const ImageUploadForm = ({
           }}
         />
       </div>
+      </section>
       <CoordinateSelectorButton
         isLoading={isLoading}
         setCoordinates={setImageCoordinates}

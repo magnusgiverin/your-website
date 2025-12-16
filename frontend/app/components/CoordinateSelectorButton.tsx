@@ -104,7 +104,7 @@ const CoordinateSelectorButton = ({
   }, [jitterMeters]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="flex flex-col gap-4 mt-2 md:mt-4">
+    <div className="flex flex-col lg:flex-row xl:flex-col gap-4 mt-2 md:mt-4 lg:justify-between xl:justify-center">
       {/* Button */}
       <button
         type="button"
@@ -112,7 +112,7 @@ const CoordinateSelectorButton = ({
           getUserLocation()
         }}
         disabled={isLoading}
-        className="cursor-pointer flex items-center justify-center gap-3 group"
+        className="w-full cursor-pointer flex items-center justify-center gap-3 group"
         style={{ color: 'var(--color-primary)' }}
       >
         <span className="material-icons">location_on</span>
@@ -131,7 +131,7 @@ const CoordinateSelectorButton = ({
         </span>
       </button>
 
-      <div className="flex flex-col gap-2">
+      <div className="w-full flex flex-col gap-2">
         <label className="text-xs" style={{ color: 'var(--color-muted)' }}>
           Location accuracy: ±{jitterMeters} meters
         </label>

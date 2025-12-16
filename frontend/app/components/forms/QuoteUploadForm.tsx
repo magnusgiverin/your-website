@@ -54,8 +54,9 @@ const QuoteUploadForm = ({
           }}
         />
       </div>
+      <section className='w-full flex flex-col lg:flex-row xl:flex-col gap-4 lg:justify-between'>
 
-      <div>
+      <div className='w-full'>
         <label className="hidden sm:block text-sm font-medium mb-2" style={{color: 'var(--color-text)'}}>
           Author (optional)
         </label>
@@ -74,7 +75,7 @@ const QuoteUploadForm = ({
         />
       </div>
 
-      <div className='hidden sm:block'>
+      <div className='hidden sm:block w-full'>
         <label className="block text-sm font-medium mb-2" style={{color: 'var(--color-text)'}}>
           Location (required for map)
         </label>
@@ -92,7 +93,7 @@ const QuoteUploadForm = ({
           }}
         />
       </div>
-
+</section>
       <CoordinateSelectorButton
         isLoading={isLoading}
         setCoordinates={setQuoteCoordinates}

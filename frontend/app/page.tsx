@@ -21,7 +21,7 @@ export default async function Page() {
 
   return (
     <div className="min-h-screen" style={{backgroundColor: 'var(--color-bg)'}}>
-      <div className="h-screen scroll-y-none overflow-hidden">
+      <div className="h-screen overflow-hidden">
         <WorldMapWrapper uploads={uploads} />
       </div>
       <InfoForm />

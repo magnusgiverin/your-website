@@ -1,4 +1,4 @@
-import { client } from './client'
+import { serverClient } from "./serverClient"
 
 interface SanityFetchProps {
   query: string
@@ -11,7 +11,7 @@ export async function sanityFetch<T>({
   params = {},
   revalidate = 60,
 }: SanityFetchProps): Promise<{ data: T }> {
-  const data = await client.fetch<T>(query, params, {
+  const data = await serverClient.fetch<T>(query, params, {
     next: revalidate === false ? undefined : { revalidate },
   })
 

@@ -2,7 +2,7 @@ import './globals.css'
 
 import {SpeedInsights} from '@vercel/speed-insights/next'
 import type {Metadata} from 'next'
-import {Toaster} from 'sonner'
+import Script from 'next/script'
 
 /**
  * Generate metadata for the page.
@@ -27,7 +27,10 @@ export default async function RootLayout({children}: {children: React.ReactNode}
       <body>
         <section className="min-h-screen">
           {/* The <Toaster> component is responsible for rendering toast notifications */}
-          <Toaster />
+          <Script
+            src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
+            strategy="afterInteractive"
+          />
           {/* The <SanityLive> component is responsible for making all sanityFetch calls in your application live */}
           <main>{children}</main>
         </section>
