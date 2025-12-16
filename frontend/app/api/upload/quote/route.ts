@@ -2,8 +2,6 @@ import {NextResponse} from 'next/server'
 import {serverClient} from '@/sanity/lib/serverClient'
 
 export async function POST(req: Request) {
-  const ip = req.headers.get('x-forwarded-for') ?? 'unknown'
-
   try {
     const body = await req.json()
 
