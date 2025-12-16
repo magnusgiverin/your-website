@@ -199,7 +199,7 @@ export default function UploadModal() {
                       key={type}
                       type="button"
                       onClick={() => handleChangeUploadType(type)}
-                      className="flex-1 px-4 py-2 rounded-lg font-medium flex items-center justify-center gap-2"
+                      className="cursor-pointer flex-1 px-4 py-2 rounded-lg font-medium flex items-center justify-center gap-2"
                       style={{
                         backgroundColor: uploadType === type ? 'var(--color-primary)' : 'transparent',
                         color: uploadType === type ? 'var(--color-bg)' : 'var(--color-text)',
